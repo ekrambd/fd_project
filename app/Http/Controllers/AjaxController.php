@@ -82,7 +82,7 @@ class AjaxController extends Controller
             $user = User::findorfail($order->user_id);
 
             //Node.js Socket Server URL
-            $url = "https://jp-queue-bot.jplink.space/order-status-change";
+            $url = "https://theclays.shop/order-status-change";
 
             //Call socket server
             Http::post($url, [
