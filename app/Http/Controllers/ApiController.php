@@ -18,6 +18,7 @@ use Validator;
 use DB;
 use Hash;
 use Firebase\JWT\JWT;
+use App\Models\Otp;
 
 class ApiController extends Controller
 {
@@ -697,7 +698,8 @@ class ApiController extends Controller
     public function sendOTP(Request $request)
     {
         try
-        {
+        {   
+            date_default_timezone_set('Asia/Dhaka');
             $validator = Validator::make($request->all(), [
                 'phone' => 'required|string',
             ]);
@@ -714,6 +716,44 @@ class ApiController extends Controller
             if(!$user){
                 return response()->json(['status'=>false, 'message'=>'Invalid User'],404);
             }
+            $otpCode = rand(1000,3000);
+            //$sendOTP = sendOTP($request->phone,$otp);
+
+            $message = "TheClaysBD: Your OTP is {$otpCode}. Please do not share this code with anyone.";
+            $message = urlencode($message);
+
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+              CURLOPT_URL => "http://sms.songbirdtelecom.com:8746/sendtext?apikey=4a247b18cfc78410&secretkey=25a8ee98&callerID=8801847&toUser={$user->phone}&messageContent={$message}",
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => '',
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 0,
+              CURLOPT_FOLLOWLOCATION => true,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => 'GET',
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+
+            // echo "<pre>";
+            // print_r($response);
+            // exit();
+
+            $otp = new Otp();
+            $otp->user_id = $user->id;
+            $otp->user_phone = $request->phone;
+            $otp->otp = $otpCode;
+            $otp->date = date('Y-m-d');
+            $otp->time = date('h:i:s a');
+            $otp->timstamp = time();
+            $otp->status = 'pending';
+            $otp->save();
+
             return response()->json(['status'=>true, 'message'=>'Verification OTP has been sent'],200);
         }catch(Exception $e){
             return response()->json(['status'=>false, 'code'=>$e->getCode(), 'message'=>$e->getMessage()],500);
@@ -722,7 +762,8 @@ class ApiController extends Controller
 
 
     public function verifyOTP(Request $request)
-    {
+    {  
+        DB::beginTransaction();
         try
         {
             $validator = Validator::make($request->all(), [
@@ -743,14 +784,25 @@ class ApiController extends Controller
                 return response()->json(['status'=>false, 'message'=>'Invalid User'],404);
             }
 
-            if($request->otp == '1234')
-            {
+            $otp = Otp::where('user_id',$user->id)->where('status','pending')->latest()->first();
+
+            if(!$otp){
+                return response()->json(['status'=>false, 'phone'=>"", 'message'=>'No Record Found'],404);
+            }
+
+            if($request->otp == $otp->otp)
+            {   
+                $otp->status = 'verified';
+                $otp->update();
                 return response()->json(['status'=>true, 'phone'=>$request->phone, 'message'=>'Successfully Verified'],200);
             }
+
+            DB::commit();
 
             return response()->json(['status'=>false, 'phone'=>"", 'message'=>'Failed to verify the otp'],40);
 
         }catch(Exception $e){
+            DB::rollback();
             return response()->json(['status'=>false, 'code'=>$e->getCode(), 'message'=>$e->getMessage()],500);
         }
     }

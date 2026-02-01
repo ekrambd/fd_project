@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('notifications', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->integer('order_id');
-            $table->string('type');
-            $table->morphs('notifiable');
-            $table->text('data');
-            $table->timestamp('read_at')->nullable();
+        Schema::create('otps', function (Blueprint $table) {
+            $table->id();
+            $table->integer('user_id');
+            $table->string('user_phone');
+            $table->string('otp');
+            $table->string('status')->default('pending');
+            $table->date('date');
+            $table->string('time');
+            $table->string('timstamp');
             $table->timestamps();
         });
     }
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('otps');
     }
 };

@@ -67,3 +67,25 @@ function setReadNotify($id)
         $notification->markAsRead();
     }
 }
+
+function sendOTP($phone,$otp)
+{
+	$curl = curl_init();
+
+	curl_setopt_array($curl, array(
+	  CURLOPT_URL => "http://sms.songbirdtelecom.com:8746/sendtext?apikey=4a247b18cfc78410&secretkey=25a8ee98&callerID=8801847&toUser={$phone}&messageContent=TheClaysBD: Your OTP is {$otp}. Please do not share this code with anyone.",
+	  CURLOPT_RETURNTRANSFER => true,
+	  CURLOPT_ENCODING => '',
+	  CURLOPT_MAXREDIRS => 10,
+	  CURLOPT_TIMEOUT => 0,
+	  CURLOPT_FOLLOWLOCATION => true,
+	  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+	  CURLOPT_CUSTOMREQUEST => 'GET',
+	));
+
+	$response = curl_exec($curl);
+
+	$result = json_decode($response,true);
+
+	return $result;
+}
