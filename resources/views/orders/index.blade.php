@@ -243,7 +243,7 @@
 
 
 
-      const socket = io("https://theclays.shop"); // Node server URL
+      const socket = io("http://46.202.162.41:3000"); // Node server URL
     let Admin_ID = "{{ user()->id }}";   // Logged in admin ID
 
     // Join admin room
