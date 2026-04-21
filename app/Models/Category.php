@@ -16,6 +16,10 @@ class Category extends Model
         'status',
     ];
 
+    protected $casts = [
+        'user_id' => 'string',
+    ];
+
     public function items()
     {
     	return $this->hasMany(Item::class);

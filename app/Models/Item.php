@@ -11,6 +11,12 @@ class Item extends Model
 
     protected $appends = ['discount_price'];
 
+    protected $casts = [
+        'user_id' => 'string',
+        'category_id' => 'string',
+        'unit_id' => 'string',
+    ];
+
     public function category()
     {
     	return $this->belongsTo(Category::class);
