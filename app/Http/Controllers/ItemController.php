@@ -169,7 +169,7 @@ class ItemController extends Controller
                 $file = $request->file('image');
                 $name = time() . user()->id . $file->getClientOriginalName();
                 $file->move(public_path() . '/uploads/items/', $name);
-                //unlink(public_path($item->image));
+                unlink(public_path($item->image));
                 $path = 'uploads/items/' . $name;
             }else{
                 $path = $item->image;
