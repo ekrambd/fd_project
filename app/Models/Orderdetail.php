@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Orderdetail extends Model
 {
     use HasFactory;
+
+    protected $casts = [
+        'user_id' => 'string'
+    ];
         
     public function orders()
     {
