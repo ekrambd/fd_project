@@ -9,6 +9,12 @@ class Rating extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'orderdetail_id' => 'string',
+        'user_id' => 'string',
+        'rate' => 'string',
+    ];
+
     public function orderdetail()
     {
     	return $this->belongsTo(Orderdetail::class);
