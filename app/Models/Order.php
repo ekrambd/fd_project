@@ -10,7 +10,8 @@ class Order extends Model
     use HasFactory;
 
     protected $casts = [
-        'orderdetail_id' => 'string'
+        'orderdetail_id' => 'string',
+        'item_id' => 'string',
     ];
 
     public function orderdetail()
