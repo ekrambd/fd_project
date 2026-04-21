@@ -322,7 +322,7 @@
 <script src="https://cdn.socket.io/4.7.1/socket.io.min.js"></script>
 
 <script>
-  let socket = io("https://theclays.shop");
+  let socket = io("https://claysbd.xyz");
 
   let Admin_ID = "{{ user()->id }}";
 
