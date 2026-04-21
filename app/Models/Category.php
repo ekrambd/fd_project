@@ -16,9 +16,9 @@ class Category extends Model
         'status',
     ];
 
-    // protected $casts = [
-    //     'user_id' => 'string',
-    // ];
+    protected $casts = [
+        'user_id' => 'string',
+    ];
 
     public function items()
     {
