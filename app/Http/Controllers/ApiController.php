@@ -312,7 +312,7 @@ class ApiController extends Controller
             ])->find($detail->id);
 
 
-            Http::post('http://46.202.162.41:3000/order-save', [
+            Http::post('https://claysbd.xyz/order-save', [
                 'admin_id' => 1,
                 'status'   => true,
                 'order_id' => intval($detail->id),
@@ -474,7 +474,7 @@ class ApiController extends Controller
                 'data' => $order
             ];
 
-            Http::post('http://46.202.162.41:3000/user-arrival-change', [
+            Http::post('https://claysbd.xyz/user-arrival-change', [
                 'admin_id' => 1,     
                 'payload' => $payload
             ]);
@@ -886,7 +886,7 @@ class ApiController extends Controller
     //     ];
 
     //     // Laravel -> Node.js Socket emit using HTTP request
-    //     Http::post('http://46.202.162.41:3000/user-location-update', [
+    //     Http::post('https://claysbd.xyz/user-location-update', [
     //         'admin_id' => $request->admin_id,
     //         'payload' => $payload
     //     ]);
@@ -960,7 +960,7 @@ class ApiController extends Controller
                 'restaurant_lon' => $restaurant->lon,
             ];
         
-            Http::post('http://46.202.162.41:3000/user-location-update', [
+            Http::post('https://claysbd.xyz/user-location-update', [
                 'admin_id' => $request->admin_id,
                 'payload' => $payload
             ]);
