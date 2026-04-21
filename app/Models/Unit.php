@@ -9,6 +9,10 @@ class Unit extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'user_id' => 'string',
+    ];
+
     public function items()
     {
     	return $this->hasMany(Item::class);
