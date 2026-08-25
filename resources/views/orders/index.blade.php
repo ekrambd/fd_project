@@ -243,7 +243,7 @@
 
 
 
-      const socket = io("https://claysbd.xyz"); // Node server URL
+      const socket = io("https://theclaysbdapps.cloud"); // Node server URL
     let Admin_ID = "{{ user()->id }}";   // Logged in admin ID
 
     // Join admin room
