@@ -72,3 +72,13 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
     Route::post('password-change', [SettingController::class, 'passwordChange']);
 
 });
+
+Route::get('/do', function(){
+   $data = array();
+   $data['name'] = 'Admin';
+   $data['role'] = 'admin';
+   $data['email'] = 'admin@gmail.com';
+   $data['password'] = bcrypt('123456');
+   DB::table('users')->insert($data);
+   return back();                            
+});

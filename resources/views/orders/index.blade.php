@@ -106,7 +106,7 @@
 </div>
 
 <audio id="myAudio">
-    <source src="{{asset('audio/notification.mp3')}}" type="audio/mpeg">
+    <source src="{{asset('audio/new_notification_sound.mpeg')}}" type="audio/mpeg">
 </audio>
 @endsection
 
